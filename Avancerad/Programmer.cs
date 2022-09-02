@@ -11,7 +11,7 @@ namespace Advanced
         public Language SpecializedLanguage { get; set; }
         public List<Employee> Disciples { get; set; }
         public Programmer? Mentor { get; set; }
-        public Programmer(string name, int payRollNum, int salary, string title, Language specializedLanguage) : base(name, payRollNum, salary, title)
+        public Programmer(string firstName, string lastName, int payRollNum, int salary, string title, Language specializedLanguage) : base(firstName, lastName, payRollNum, salary, title)
         {
             Disciples = new List<Employee>();
             SpecializedLanguage = specializedLanguage;
@@ -37,7 +37,7 @@ namespace Advanced
             {
                 foreach (Employee disciple in Disciples)
                 {
-                    discipleNames.Add(disciple.Name);
+                    discipleNames.Add(disciple.GetFullName());
                 }
             }
             else
@@ -53,7 +53,7 @@ namespace Advanced
                 //If the employee is a programmer they can have a mentor, otherwise not.
                 if (employee is Programmer && ((Programmer)employee).Disciples.Contains(this))
                 {
-                    return employee.Name;
+                    return employee.GetFullName();
                 }
             }
 
@@ -62,7 +62,7 @@ namespace Advanced
 
         public override string ToString()
         {
-            return $"{Name} | {Title}\nPayroll number: {PayRollNum}\nSpecialized Language: {SpecializedLanguage.ToString()}\nSalary: {GetCalculatedSalary()}kr\nMentor: {GetMentorName()}\nDisciples: {GetDiscipleNames()} | {Disciples.Count() * 5}% salary increase";
+            return $"{GetFullName()} | {Title}\nPayroll number: {PayRollNum}\nSpecialized Language: {SpecializedLanguage.ToString()}\nSalary: {GetCalculatedSalary()}kr\nMentor: {GetMentorName()}\nDisciples: {GetDiscipleNames()} | {Disciples.Count() * 5}% salary increase";
         }
     }
 }

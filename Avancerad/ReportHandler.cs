@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Advanced
 {
-    internal class ReportHandler
+    internal abstract class ReportHandler
     {
         public static void PrintGeneralReport()
         {
@@ -24,28 +24,35 @@ namespace Advanced
             MenuHandler.PrintMainMenu();
         }
 
+
+
         public static void PrintSpecificReport()
         {
             Console.Clear();
             Console.Write("Enter Employee Payroll Number to print: ");
 
-            if (int.TryParse(Console.ReadLine(), out int payRollNum))
-            {
-                Employee employee = Employee.GetEmployee(payRollNum);
+            string stringPayRollNum = Console.ReadLine();
 
-                //If the employee is found (he exists).
-                if (employee is not null)
+            //Check if payroll number is integer.
+            if (Employee.ValidatePayRollNumberFormat(stringPayRollNum))
+            {
+                int payRollNumber = int.Parse(stringPayRollNum);
+
+                //Check if there is an employee with that number.
+                if (Employee.ValidateEmployee(payRollNumber))
                 {
                     Console.WriteLine();
-                    Console.WriteLine(employee.ToString());
+                    Console.WriteLine(Employee.GetEmployee(payRollNumber).ToString());
                 }
 
+                //If there is no employee with number ->.
                 else
                 {
                     Console.WriteLine("Employee not found, please try again.");
                 }
             }
 
+            //If payroll number is not correctly formatted, integer only.
             else
             {
                 Console.WriteLine("Invalid payroll number, please try again.");
@@ -65,5 +72,6 @@ namespace Advanced
                     break;
             }
         }
+
     }
 }

@@ -11,6 +11,7 @@ namespace Advanced
         public static List<Language> languages = new List<Language>();
         public string Name { get; set; }
         public int EnhancementPercentage { get; set; }
+
         public Language(string name)
         {
             this.Name = name;
