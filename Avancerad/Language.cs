@@ -27,7 +27,6 @@ namespace Advanced
         {
             return languages.Find(m => m.Name.Equals(name));
         }
-
         public override string ToString()
         {
             return $"{Name} | {EnhancementPercentage}% salary increase";

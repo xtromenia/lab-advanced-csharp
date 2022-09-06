@@ -1,8 +1,17 @@
 ﻿using Advanced;
 
-RegisterStartupLanguages();
-RegisterStartupEmployees();
+
+StartUpDelegate languageDelegate = new StartUpDelegate(RegisterStartupLanguages);
+StartUpDelegate employeeDelegate = new StartUpDelegate(RegisterStartupEmployees);
+
+StartUpDelegate generalDelegate = languageDelegate + employeeDelegate;
+
+//RegisterStartupLanguages();
+//RegisterStartupEmployees();
+
+generalDelegate();
 MenuHandler.PrintMainMenu();
+
 
 static void RegisterStartupLanguages()
 {
@@ -25,7 +34,9 @@ static void RegisterStartupEmployees()
     Employee karl = new Employee("Karl", "Bobsson", 6, 27000, "Receptionist");
     Employee stefan = new Employee("Stefan", "Arnesson", 7, 26000, "Janitor");
 
-    kenny.Disciples.Add(lars);
-    kenny.Disciples.Add(bertil);
+    kenny.AddDisciple(lars.PayRollNum);
+    kenny.AddDisciple(bertil.PayRollNum);
 }
+
+public delegate void StartUpDelegate();
 

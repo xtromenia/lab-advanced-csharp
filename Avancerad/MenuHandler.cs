@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ClassLibrary1;
 
 namespace Advanced
 {
@@ -56,13 +52,13 @@ namespace Advanced
                 switch (pressedKey)
                 {
                     case ConsoleKey.D1:
-                        MenuHandler.PrintManageEmployeeMenu();
+                        PrintManageEmployeeMenu();
                         break;
                     case ConsoleKey.D2:
-                        MenuHandler.PrintManageDepartmentMenu();
+                        PrintManageDepartmentMenu();
                         break;
                     case ConsoleKey.Escape:
-                        MenuHandler.PrintMainMenu();
+                        PrintMainMenu();
                         break;
                     default:
                         showManageMenu = true;
@@ -90,7 +86,7 @@ namespace Advanced
 
                 string stringPayRollNumber = Console.ReadLine();
 
-                if (Employee.ValidatePayRollNumberFormat(stringPayRollNumber))
+                if (Helper.ValidatePayRollNumberFormat(stringPayRollNumber))
                 {
                     int payRollNumber = int.Parse(stringPayRollNumber);
 
@@ -103,7 +99,7 @@ namespace Advanced
 
                     else
                     {
-                        Console.WriteLine("Employee not found, please try again.");
+                        Helper.PrintEmployeeNotFoundMessage();
                         Console.ReadKey(true);
                         showMenu = true;
                     }
@@ -111,7 +107,7 @@ namespace Advanced
 
                 else
                 {
-                    Console.WriteLine("Invalid payroll number, please try again.");
+                    Helper.PrintInvalidPayRollNumberMessage();
                     Console.ReadKey(true);
                     showMenu = true;
                 }
@@ -122,11 +118,11 @@ namespace Advanced
         {
             foreach (var employee in Employee.employees)
             {
-                Console.WriteLine($"\n{employee.PayRollNum} {employee.GetFullName()}");
+                Console.WriteLine($"{employee.PayRollNum} {employee.GetFullName()}");
             }
         }
 
-        private static void PrintAllEmployeeHighlightDisciple(Programmer mentor)
+        private static void PrintAllEmployeeHighlightDisciple(Programmer mentor, bool showMentor)
         {
             foreach (var employee in Employee.employees)
             {
@@ -136,7 +132,11 @@ namespace Advanced
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
                 }
-                Console.WriteLine($"\n{employee.PayRollNum} {employee.GetFullName()}");
+
+                if (employee == mentor && showMentor || employee != mentor)
+                {
+                    Console.WriteLine($"{employee.PayRollNum} {employee.GetFullName()}");
+                }
             }
         }
 
@@ -145,6 +145,7 @@ namespace Advanced
             bool showMenu = false;
             do
             {
+
                 Console.Clear();
                 Console.WriteLine(employee.GetFullName());
 
@@ -161,7 +162,7 @@ namespace Advanced
                 switch (Console.ReadKey(true).Key)
                 {
                     case ConsoleKey.Escape:
-                        PrintManageEmployeeMenu();
+                        PrintMainMenu();
                         break;
                     case ConsoleKey.D1:
                         PrintAddDiscipleMenu((Programmer)employee);
@@ -202,9 +203,56 @@ namespace Advanced
         private static void PrintAddDiscipleMenu(Programmer programmer)
         {
             Console.Clear();
+
             Console.WriteLine("Add Disciple Menu\n");
-            PrintAllEmployeeHighlightDisciple(programmer);
+            PrintAllEmployeeHighlightDisciple(programmer, false);
             Console.WriteLine($"Enter payroll number for employee to assign as disciple under {programmer.GetFullName()}.");
+
+            string stringPayRollNumber = Console.ReadLine();
+
+            if (Helper.ValidatePayRollNumberFormat(stringPayRollNumber))
+            {
+                int payRollNumber = int.Parse(stringPayRollNumber);
+                if (Employee.ValidateEmployee(payRollNumber))
+                {
+                    Console.WriteLine();
+                    try
+                    {
+                        programmer.AddDisciple(payRollNumber);
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine($"{Employee.GetEmployee(payRollNumber).GetFullName()} added as disciple under {programmer.GetFullName()}");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine(ex.Message);
+                    }
+
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine("ESC to return to management menu.\nPress any key to continue.");
+                    switch (Console.ReadKey().Key)
+                    {
+                        case ConsoleKey.Escape:
+                            PrintManageEmployeeSubMenu(programmer);
+                            break;
+                        default:
+                            PrintAddDiscipleMenu(programmer);
+                            break;
+                    }
+                }
+                else
+                {
+                    Helper.PrintEmployeeNotFoundMessage();
+                    Console.ReadKey(true);
+                    PrintAddDiscipleMenu(programmer);
+                }
+            }
+            else
+            {
+                Helper.PrintInvalidPayRollNumberMessage();
+                Console.ReadKey(true);
+                PrintAddDiscipleMenu(programmer);
+            }
         }
 
         private static void PrintRegisterDataMenu()

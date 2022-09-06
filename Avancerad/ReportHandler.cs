@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ClassLibrary1;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,13 +19,15 @@ namespace Advanced
                 Console.WriteLine();
             }
 
+            Console.WriteLine("------------------------------------------------------");
+            Console.WriteLine($"Total monthly salary cost for company: {Employee.GetTotalMonthlyCost()}kr");
+
+
             Console.WriteLine("\nPress any button to return to main menu.");
             Console.ReadKey(true);
 
             MenuHandler.PrintMainMenu();
         }
-
-
 
         public static void PrintSpecificReport()
         {
@@ -34,7 +37,7 @@ namespace Advanced
             string stringPayRollNum = Console.ReadLine();
 
             //Check if payroll number is integer.
-            if (Employee.ValidatePayRollNumberFormat(stringPayRollNum))
+            if (Helper.ValidatePayRollNumberFormat(stringPayRollNum))
             {
                 int payRollNumber = int.Parse(stringPayRollNum);
 
@@ -48,14 +51,14 @@ namespace Advanced
                 //If there is no employee with number ->.
                 else
                 {
-                    Console.WriteLine("Employee not found, please try again.");
+                    Helper.PrintEmployeeNotFoundMessage();
                 }
             }
 
             //If payroll number is not correctly formatted, integer only.
             else
             {
-                Console.WriteLine("Invalid payroll number, please try again.");
+                Helper.PrintInvalidPayRollNumberMessage();
             }
 
             Console.WriteLine("\nPress enter to check again or ESC to return to main menu.");

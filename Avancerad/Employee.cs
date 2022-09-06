@@ -2,12 +2,10 @@
 {
     public class Employee : Person
     {
-        public static List<Employee> employees = new List<Employee>();
+        public static readonly List<Employee> employees = new List<Employee>();
         public string Title { get; set; }
         public int PayRollNum { get; set; }
         public int BaseSalary { get; set; }
-
-        public delegate void NotifyValidationResult(string result);
 
         public Employee(string firstName, string lastName, int payRollNum, int salary, string title) : base(firstName, lastName)
         {
@@ -26,12 +24,9 @@
             return $"Name: {base.GetFullName()} | {Title}\nPayroll number: {PayRollNum}\nSalary: {BaseSalary}kr";
         }
 
-        /// <summary>
-        /// Checks if the provided string input is a valid payroll number.
-        /// </summary>
-        public static bool ValidatePayRollNumberFormat(string stringInput)
+        public virtual int GetSalary()
         {
-            return int.TryParse(stringInput, out int intOutput);
+            return BaseSalary;
         }
 
         /// <summary>
@@ -49,5 +44,16 @@
             }
         }
 
+        /// <summary>
+        /// Can maybe use polymorphism here.
+        /// </summary>
+        /// <returns></returns>
+        internal static int GetTotalMonthlyCost()
+        {
+            //Gets the total sum of salary the company has to pay each month.
+            int totalCost = employees.Sum(m => m.GetSalary());
+
+            return totalCost;
+        }
     }
 }
