@@ -73,8 +73,6 @@ namespace Advanced
 
         internal void AddDisciple(int payRollNumber)
         {
-            //Programmer discipleToAdd = (Programmer)GetEmployee(payRollNumber);
-
             var discipleToAdd = GetEmployee(payRollNumber);
 
             if (discipleToAdd is not Programmer)
@@ -99,6 +97,37 @@ namespace Advanced
 
             ((Programmer)discipleToAdd).Mentor = this;
             this.Disciples.Add(discipleToAdd);
+        }
+
+        internal void RemoveDisciple(int payRollNumber)
+        {
+            Programmer discipleToRemove = (Programmer)GetEmployee(payRollNumber);
+
+            if (discipleToRemove == this)
+            {
+                throw new Exception($"Error {discipleToRemove.GetFullName()} cannot remove themselves from being a disciple.");
+            }
+            if (discipleToRemove.Mentor != this)
+            {
+                throw new Exception($"Error {discipleToRemove.GetFullName()} cannot be removed as a disciple because {this.GetFullName()} is not their mentor.");
+            }
+            else
+            {
+                this.Disciples.Remove(discipleToRemove);
+                discipleToRemove.Mentor = null;
+            }
+        }
+
+        internal void ChangeSpecializedLanguage(Language language)
+        {
+            if (language == SpecializedLanguage)
+            {
+                throw new Exception($"Language not changed, selected language was same as {this.GetFullName()}s specialized language.");
+            }
+            else
+            {
+                SpecializedLanguage = language;
+            }
         }
     }
 }

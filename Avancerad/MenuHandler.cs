@@ -1,4 +1,5 @@
 ﻿using ClassLibrary1;
+using System;
 
 namespace Advanced
 {
@@ -149,6 +150,7 @@ namespace Advanced
                 Console.Clear();
                 Console.WriteLine(employee.GetFullName());
 
+                //Only some choices are relevant for programmer
                 if (employee is Programmer)
                 {
                     Console.WriteLine($"1. Add Disciple.");
@@ -165,23 +167,49 @@ namespace Advanced
                         PrintMainMenu();
                         break;
                     case ConsoleKey.D1:
-                        PrintAddDiscipleMenu((Programmer)employee);
+                        try
+                        {
+                            PrintAddDiscipleMenu((Programmer)employee);
+                        }
+                        catch (Exception)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine($"Error {employee.GetFullName()} is not a programmer.");
+                            showMenu = true;
+                            Console.ReadKey(true);
+                            Console.ForegroundColor = ConsoleColor.White;
+                        }
                         break;
                     case ConsoleKey.D2:
-                        PrintRemoveDiscipleMenu((Programmer)employee);
+                        try
+                        {
+                            PrintRemoveDiscipleMenu((Programmer)employee);
+                        }
+                        catch (Exception)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine($"Error {employee.GetFullName()} is not a programmer.");
+                            showMenu = true;
+                            Console.ReadKey(true);
+                            Console.ForegroundColor = ConsoleColor.White;
+                        }
                         break;
                     case ConsoleKey.D3:
-                        PrintChangeSpecializedLanguageMenu(employee);
+                        PrintChangeSpecializedLanguageMenu((Programmer)employee);
                         break;
                     case ConsoleKey.D4:
                         PrintChangeDepartmentMenu(employee);
                         break;
                     default:
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Bad Input, try again.");
+                        Console.ForegroundColor = ConsoleColor.White;
                         showMenu = true;
                         Console.ReadKey(true);
                         break;
                 }
+
+
             } while (showMenu);
         }
 
@@ -190,14 +218,132 @@ namespace Advanced
             throw new NotImplementedException();
         }
 
-        private static void PrintChangeSpecializedLanguageMenu(Employee employee)
+        private static void PrintChangeSpecializedLanguageMenu(Programmer programmer)
         {
-            throw new NotImplementedException();
+            Console.Clear();
+            Console.WriteLine("Change Specialized Language Menu");
+            PrintLanguages(programmer);
+
+            Console.WriteLine($"Enter name of language to make it {programmer.GetFullName()}s new specialized language.");
+            string newLanguage = Console.ReadLine();
+
+            if (Language.LanguageExists(newLanguage))
+            {
+                try
+                {
+                    programmer.ChangeSpecializedLanguage(Language.GetLanguage(newLanguage));
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"{programmer.GetFullName()}'s new specialized language is now {programmer.SpecializedLanguage.Name} with a salary increase of {programmer.SpecializedLanguage.EnhancementPercentage}.");
+                }
+                catch (Exception ex)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(ex.Message);
+                }
+
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Language does not exist.");
+            }
+
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("ESC.Return to manage menu.\nPress any key to continue.");
+
+            switch (Console.ReadKey(true).Key)
+            {
+                case ConsoleKey.Escape:
+                    PrintManageEmployeeSubMenu(programmer);
+                    break;
+                default:
+                    PrintChangeSpecializedLanguageMenu(programmer);
+                    break;
+            }
+        }
+
+        private static void PrintLanguages(Programmer programmer)
+        {
+            foreach (Language language in Language.languages)
+            {
+                Console.ForegroundColor = ConsoleColor.White;
+
+                if (language == programmer.SpecializedLanguage)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                }
+
+                Console.WriteLine(language.ToString());
+            }
         }
 
         private static void PrintRemoveDiscipleMenu(Programmer programmer)
         {
-            throw new NotImplementedException();
+            Console.Clear();
+            Console.WriteLine("Remove Disciple Menu\n");
+
+            PrintProgrammersDisciples(programmer);
+
+            Console.WriteLine($"Enter payroll number for employee to remove as disciple under {programmer.GetFullName()}.");
+
+            string stringPayRollNumber = Console.ReadLine();
+
+            if (Helper.ValidatePayRollNumberFormat(stringPayRollNumber))
+            {
+                int payRollNumber = int.Parse(stringPayRollNumber);
+                if (Employee.ValidateEmployee(payRollNumber))
+                {
+                    Console.WriteLine();
+                    try
+                    {
+                        programmer.RemoveDisciple(payRollNumber);
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine($"{Employee.GetEmployee(payRollNumber).GetFullName()} has been removed as a disciple from {programmer.GetFullName()}.");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine(ex.Message);
+                        Console.ReadKey(true);
+                    }
+                }
+
+                else
+                {
+                    Helper.PrintEmployeeNotFoundMessage();
+                    Console.ReadKey(true);
+                    PrintAddDiscipleMenu(programmer);
+                }
+
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("ESC to return to management menu.\nPress any key to continue.");
+                switch (Console.ReadKey(true).Key)
+                {
+                    case ConsoleKey.Escape:
+                        PrintManageEmployeeSubMenu(programmer);
+                        break;
+                    default:
+                        PrintRemoveDiscipleMenu(programmer);
+                        break;
+                }
+            }
+            else
+            {
+                Helper.PrintInvalidPayRollNumberMessage();
+                Console.ReadKey(true);
+                PrintRemoveDiscipleMenu(programmer);
+            }
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+
+        private static void PrintProgrammersDisciples(Programmer programmer)
+        {
+            foreach (Programmer disciple in programmer.Disciples)
+            {
+                Console.WriteLine($"{disciple.PayRollNum} {disciple.GetFullName()}");
+            }
         }
 
         private static void PrintAddDiscipleMenu(Programmer programmer)

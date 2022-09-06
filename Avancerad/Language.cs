@@ -27,6 +27,16 @@ namespace Advanced
         {
             return languages.Find(m => m.Name.Equals(name));
         }
+
+        public static bool LanguageExists(string languageName)
+        {
+            if (GetLanguage(languageName) is not null)
+            {
+                return true;
+            }
+
+            return false;
+        }
         public override string ToString()
         {
             return $"{Name} | {EnhancementPercentage}% salary increase";

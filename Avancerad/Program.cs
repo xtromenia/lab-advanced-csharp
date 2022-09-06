@@ -4,12 +4,14 @@
 StartUpDelegate languageDelegate = new StartUpDelegate(RegisterStartupLanguages);
 StartUpDelegate employeeDelegate = new StartUpDelegate(RegisterStartupEmployees);
 
-StartUpDelegate generalDelegate = languageDelegate + employeeDelegate;
+StartUpDelegate startupDelegate = languageDelegate + employeeDelegate;
 
 //RegisterStartupLanguages();
 //RegisterStartupEmployees();
 
-generalDelegate();
+startupDelegate();
+
+Console.ForegroundColor = ConsoleColor.White;
 MenuHandler.PrintMainMenu();
 
 
