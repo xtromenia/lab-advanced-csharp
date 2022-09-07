@@ -278,6 +278,13 @@ namespace Advanced
                 Console.WriteLine(language.ToString());
             }
         }
+        private static void PrintLanguages()
+        {
+            foreach (Language language in Language.languages)
+            {
+                Console.WriteLine(language.ToString());
+            }
+        }
 
         private static void PrintRemoveDiscipleMenu(Programmer programmer)
         {
@@ -414,7 +421,7 @@ namespace Advanced
                 switch (pressedKey)
                 {
                     case ConsoleKey.Escape:
-                        Environment.Exit(0);
+                        MenuHandler.PrintMainMenu();
                         break;
                     case ConsoleKey.D1:
                         MenuHandler.PrintRegisterNewEmployeeMenu();
@@ -422,11 +429,8 @@ namespace Advanced
                     case ConsoleKey.D2:
                         MenuHandler.PrintRegisterDepartmentMenu();
                         break;
-                    case ConsoleKey.D3:
-                        MenuHandler.PrintMainMenu();
-                        break;
                     default:
-                        showRegisterMenu = true;
+                        PrintRegisterDataMenu();
                         break;
                 }
             } while (showRegisterMenu);
@@ -439,7 +443,114 @@ namespace Advanced
 
         private static void PrintRegisterNewEmployeeMenu()
         {
-            throw new NotImplementedException();
+            bool enterPayRollNum = true;
+
+            int payRollNum = -1;
+
+            while (enterPayRollNum)
+            {
+                Console.Write("Enter employee's payroll number: ");
+
+                string enteredPayRollNum = Console.ReadLine();
+
+                if (Helper.ValidatePayRollNumberFormat(enteredPayRollNum))
+                {
+                    payRollNum = int.Parse(enteredPayRollNum);
+
+                    //If an employee exists with the given payroll number.
+                    if (Employee.ValidateEmployee(payRollNum))
+                    {
+                        Console.WriteLine($"An employee with the payrollnumber {payRollNum} already exists. Please try again.");
+                    }
+
+                    else
+                    {
+                        enterPayRollNum = false;
+                    }
+                }
+
+                else
+                {
+                    Helper.PrintInvalidPayRollNumberMessage();
+                }
+            }
+
+            Console.Write("Enter employee's firstname: ");
+            string firstName = Console.ReadLine();
+
+            Console.Write("Enter employee's surname: ");
+            string lastName = Console.ReadLine();
+
+            bool enterSalary = true;
+            int salary = 0;
+
+            while (enterSalary)
+            {
+                Console.Write("Enter employee's salary:");
+
+                if (int.TryParse(Console.ReadLine(), out salary))
+                {
+                    enterSalary = false;
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Invalid salary, try again.");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+            }
+
+            Console.Write("Enter employee title:");
+            string title = Console.ReadLine();
+
+            bool deciding = true;
+
+            while (deciding)
+            {
+
+                Console.WriteLine("Do you want to register this employee as a programmer?\n1. Yes.\n2. No.");
+
+                switch (Console.ReadKey().Key)
+                {
+                    case ConsoleKey.D1:
+                        PrintLanguages();
+                        Programmer newProgrammer = new Programmer(firstName, lastName, payRollNum, salary, title);
+
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine($"New programmer {newProgrammer.GetFullName()} has been registered.");
+                        Console.ForegroundColor = ConsoleColor.White;
+
+                        Console.WriteLine("Press ESC to exit or any key to select a specialized language.");
+
+                        if (Console.ReadKey().Key != ConsoleKey.Escape)
+                        {
+                            Console.Write("Enter Desired specialised language: ");
+                            PrintLanguages();
+                            string language = Console.ReadLine();
+                            newProgrammer.ChangeSpecializedLanguage(Language.GetLanguage(language));
+                            PrintRegisterDataMenu();
+                        }
+
+                        else
+                        {
+                            PrintRegisterDataMenu();
+                        }
+
+                        break;
+
+                    case ConsoleKey.D2:
+                        Employee newEmployee = new Employee(firstName, lastName, payRollNum, salary, title);
+                        Console.WriteLine($"New employee {newEmployee.GetFullName()} has been registered.");
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+
+
+
+            PrintMainMenu();
         }
     }
 }

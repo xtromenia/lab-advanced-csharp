@@ -17,6 +17,13 @@ namespace Advanced
             Disciples = new List<Employee>();
             SpecializedLanguage = specializedLanguage;
         }
+
+        public Programmer(string firstName, string lastName, int payRollNum, int salary, string title) : base(firstName, lastName, payRollNum, salary, title)
+        {
+            Disciples = new List<Employee>();
+            SpecializedLanguage = null;
+        }
+
         public int GetCalculatedSalary()
         {
             //1% of salary before calculation.
