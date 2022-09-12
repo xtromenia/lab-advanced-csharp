@@ -6,9 +6,6 @@ StartUpDelegate employeeDelegate = new StartUpDelegate(RegisterStartupEmployees)
 
 StartUpDelegate startupDelegate = languageDelegate + employeeDelegate;
 
-//RegisterStartupLanguages();
-//RegisterStartupEmployees();
-
 startupDelegate();
 
 Console.ForegroundColor = ConsoleColor.White;
@@ -36,8 +33,8 @@ static void RegisterStartupEmployees()
     Employee karl = new Employee("Karl", "Bobsson", 6, 27000, "Receptionist");
     Employee stefan = new Employee("Stefan", "Arnesson", 7, 26000, "Janitor");
 
-    kenny.AddDisciple(lars.PayRollNum);
-    kenny.AddDisciple(bertil.PayRollNum);
+    kenny.AddDisciple(lars);
+    kenny.AddDisciple(bertil);
 }
 
 public delegate void StartUpDelegate();

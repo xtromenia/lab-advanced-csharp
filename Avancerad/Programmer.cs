@@ -78,6 +78,11 @@ namespace Advanced
             return $"{GetFullName()} | {Title}\nPayroll number: {PayRollNum}\nSpecialized Language: {SpecializedLanguage.ToString()}\nSalary: {GetSalary()}kr\nMentor: {GetMentorName()}\nDisciples: {GetDiscipleNames()} | {Disciples.Count() * 5}% salary increase";
         }
 
+        internal void AddDisciple(Programmer programmer)
+        {
+            AddDisciple(programmer.PayRollNum);
+        }
+
         internal void AddDisciple(int payRollNumber)
         {
             var discipleToAdd = GetEmployee(payRollNumber);

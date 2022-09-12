@@ -55,5 +55,39 @@
 
             return totalCost;
         }
+
+        internal static void SortEmployeeListAscendingSalary()
+        {
+            employees.Sort(delegate (Employee x, Employee y)
+            {
+                if (x.GetSalary() == null && y.GetSalary() == null) return 0;
+                else if (x.GetSalary() == null) return -1;
+                else if (y.GetSalary() == null) return 1;
+                else return x.GetSalary().CompareTo(y.GetSalary());
+            });
+        }
+
+        internal static void SortEmployeeListAscendingLastName()
+        {
+            employees.Sort(delegate (Employee x, Employee y)
+            {
+                if (x.LastName == null && y.LastName == null) return 0;
+                else if (x.LastName == null) return -1;
+                else if (y.LastName == null) return 1;
+                else return x.LastName.CompareTo(y.LastName);
+            });
+        }
+
+        internal static void SortEmployeeListAscendingFirstName()
+        {
+            employees.Sort(delegate (Employee x, Employee y)
+            {
+                if (x.FirstName == null && y.FirstName == null) return 0;
+                else if (x.FirstName == null) return -1;
+                else if (y.FirstName == null) return 1;
+                else return x.FirstName.CompareTo(y.FirstName);
+            });
+        }
+
     }
 }

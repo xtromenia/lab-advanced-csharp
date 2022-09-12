@@ -13,6 +13,7 @@ namespace Advanced
         {
             Console.Clear();
 
+
             foreach (Employee employee in Employee.employees)
             {
                 Console.WriteLine(employee.ToString());
@@ -22,12 +23,45 @@ namespace Advanced
             Console.WriteLine("------------------------------------------------------");
             Console.WriteLine($"Total monthly salary cost for company: {Employee.GetTotalMonthlyCost()}kr");
 
+            bool showMenu = true;
 
-            Console.WriteLine("\nPress any button to return to main menu.");
-            Console.ReadKey(true);
+            while (showMenu)
+            {
+                Console.WriteLine();
+                Console.WriteLine("1.Sort Employee List by Ascending First Name.\n2.Sort Employee List by Ascending Last Name.\n3.Sort Employee list by Ascending Salary.\nPress ESC to return to main menu.");
 
-            MenuHandler.PrintMainMenu();
+                switch (Console.ReadKey(true).Key)
+                {
+                    case ConsoleKey.Escape:
+                        showMenu = false;
+                        MenuHandler.PrintMainMenu();
+                        break;
+                    case ConsoleKey.D1:
+                        showMenu = false;
+                        Employee.SortEmployeeListAscendingFirstName();
+                        PrintGeneralReport();
+                        break;
+                    case ConsoleKey.D2:
+                        showMenu = false;
+                        Employee.SortEmployeeListAscendingLastName();
+                        PrintGeneralReport();
+                        break;
+                    case ConsoleKey.D3:
+                        showMenu = false;
+                        Employee.SortEmployeeListAscendingSalary();
+                        PrintGeneralReport();
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+
         }
+
+        //https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.sort?view=net-6.0
+
+
 
         public static void PrintSpecificReport()
         {
