@@ -1,11 +1,19 @@
 ﻿namespace Advanced
 {
-    public class Employee : Person
+    public class Employee : Person, IData
     {
         public static readonly List<Employee> employees = new List<Employee>();
         public string Title { get; set; }
         public int PayRollNum { get; set; }
         public int BaseSalary { get; set; }
+
+        public Employee(string firstName, string lastName, int payRollNum, int age, string adress,  int salary, string title) : base(firstName, lastName, age, adress)
+        {
+            PayRollNum = payRollNum;
+            BaseSalary = salary;
+            Title = title;
+            employees.Add(this);
+        }
 
         public Employee(string firstName, string lastName, int payRollNum, int salary, string title) : base(firstName, lastName)
         {
@@ -21,10 +29,16 @@
         }
         public override string ToString()
         {
-            return $"Name: {base.GetFullName()} | {Title}\nPayroll number: {PayRollNum}\nSalary: {BaseSalary}kr";
+            return $"Name: {base.GetFullName()} | {Title}";
         }
 
-        public virtual int GetSalary()
+        //Returns all data, uses tostring and adds extra data.
+        public virtual string GetAllData()
+        {
+            return $"{this}\nAdress: {base.Address ?? "Not Registered"}\nAge: {base.Age}\nPayroll number: {PayRollNum}\nSalary: {BaseSalary}kr";
+        }
+
+        public override int GetSalary()
         {
             return BaseSalary;
         }
@@ -44,18 +58,16 @@
             }
         }
 
-        /// <summary>
-        /// Can maybe use polymorphism here.
-        /// </summary>
-        /// <returns></returns>
         internal static int GetTotalMonthlyCost()
         {
             //Gets the total sum of salary the company has to pay each month.
+            //Using polymorphism we can get calculated salary for programmers.
             int totalCost = employees.Sum(m => m.GetSalary());
 
             return totalCost;
         }
 
+        //Sorting with IComparable.
         internal static void SortEmployeeListAscendingSalary()
         {
             employees.Sort(delegate (Employee x, Employee y)
@@ -88,6 +100,7 @@
                 else return x.FirstName.CompareTo(y.FirstName);
             });
         }
+
 
     }
 }

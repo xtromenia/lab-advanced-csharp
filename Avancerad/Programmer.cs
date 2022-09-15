@@ -7,11 +7,16 @@ using System.Threading.Tasks;
 
 namespace Advanced
 {
-    public class Programmer : Employee
+    public sealed class Programmer : Employee
     {
         public Language SpecializedLanguage { get; set; }
         public List<Employee> Disciples { get; set; }
         public Programmer Mentor { get; set; }
+        public Programmer(string firstName, string lastName, int payRollNum, int age, string adress, int salary, string title, Language specializedLanguage) : base(firstName, lastName, payRollNum, age, adress, salary, title)
+        {
+            Disciples = new List<Employee>();
+            SpecializedLanguage = specializedLanguage;
+        }
         public Programmer(string firstName, string lastName, int payRollNum, int salary, string title, Language specializedLanguage) : base(firstName, lastName, payRollNum, salary, title)
         {
             Disciples = new List<Employee>();
@@ -36,6 +41,12 @@ namespace Advanced
             int languageBonus = SpecializedLanguage.EnhancementPercentage * percantage;
 
             return base.BaseSalary + discipleBonus + languageBonus;
+        }
+
+        //Returns all data, uses tostring and adds extra data.
+        public override string GetAllData()
+        {
+            return $"{this}\nAdress: {base.Address ?? "Not Registered"}\nAge: {base.Age}\nPayroll number: {PayRollNum}\nSpecialized Language: {SpecializedLanguage}\nSalary: {this.GetSalary()}kr\nMentor: {GetMentorName()}\nDisciples: {GetDiscipleNames()} | {Disciples.Count() * 5}% salary increase";
         }
 
         public override int GetSalary()
@@ -73,9 +84,10 @@ namespace Advanced
             return "None";
         }
 
+        //Tostring short but descriptive, nice for debugging tool.
         public override string ToString()
         {
-            return $"{GetFullName()} | {Title}\nPayroll number: {PayRollNum}\nSpecialized Language: {SpecializedLanguage.ToString()}\nSalary: {GetSalary()}kr\nMentor: {GetMentorName()}\nDisciples: {GetDiscipleNames()} | {Disciples.Count() * 5}% salary increase";
+            return $"{GetFullName()} | {Title}";
         }
 
         internal void AddDisciple(Programmer programmer)

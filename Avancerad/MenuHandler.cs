@@ -1,18 +1,20 @@
 ﻿using ClassLibrary1;
+using HelperLibrary;
 using System;
 
 namespace Advanced
 {
-    internal abstract class MenuHandler
+    internal static class MenuHandler
     {
         public static void PrintMainMenu()
         {
+
             //Show Main Menu = false, but we use a do while so we will need to go thru the loop atleast once.
             bool showMainMenu = false;
             do
             {
                 Console.Clear();
-                Console.WriteLine("Main Menu\n1. Print General Report.\n2. Print Specific Report.\n3. Register New Data.\n4. Manage Existing Data\nESC. Quit application.");
+                Console.WriteLine("Main Menu\n1. Print General Report.\n2. Print Specific Report.\n3. Register New Data.\n4. Manage Existing Data\n5. Print Old Data.\nESC. Quit application.");
                 ConsoleKey pressedKey = Console.ReadKey(true).Key;
 
                 switch (pressedKey)
@@ -32,12 +34,21 @@ namespace Advanced
                     case ConsoleKey.D4:
                         MenuHandler.PrintManageDataMenu();
                         break;
+                    case ConsoleKey.D5:
+                        MenuHandler.PrintOldEmployeeMenu();
+                        break;
                     default:
                         showMainMenu = true;
                         break;
                 }
+
             } while (showMainMenu);
 
+        }
+
+        private static void PrintOldEmployeeMenu()
+        {
+            OldDataHandler.PrintOldEmployees();
         }
 
         private static void PrintManageDataMenu()
@@ -460,7 +471,9 @@ namespace Advanced
                     //If an employee exists with the given payroll number.
                     if (Employee.ValidateEmployee(payRollNum))
                     {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine($"An employee with the payrollnumber {payRollNum} already exists. Please try again.");
+                        Console.ForegroundColor = ConsoleColor.White;
                     }
 
                     else

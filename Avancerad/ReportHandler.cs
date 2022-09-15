@@ -7,16 +7,15 @@ using System.Threading.Tasks;
 
 namespace Advanced
 {
-    internal abstract class ReportHandler
+    internal static class ReportHandler
     {
         public static void PrintGeneralReport()
         {
             Console.Clear();
 
-
             foreach (Employee employee in Employee.employees)
             {
-                Console.WriteLine(employee.ToString());
+                Console.WriteLine(employee.GetAllData());
                 Console.WriteLine();
             }
 
@@ -61,8 +60,6 @@ namespace Advanced
 
         //https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.sort?view=net-6.0
 
-
-
         public static void PrintSpecificReport()
         {
             Console.Clear();
@@ -79,7 +76,7 @@ namespace Advanced
                 if (Employee.ValidateEmployee(payRollNumber))
                 {
                     Console.WriteLine();
-                    Console.WriteLine(Employee.GetEmployee(payRollNumber).ToString());
+                    Console.WriteLine(Employee.GetEmployee(payRollNumber).GetAllData());
                 }
 
                 //If there is no employee with number ->.
