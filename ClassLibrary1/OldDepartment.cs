@@ -21,6 +21,7 @@ namespace Advanced
             return Name;
         }
 
+        //sort by name.
         public int CompareTo(OldDepartment? otherDepartment)
         {
             return this.Name.CompareTo(otherDepartment.Name);

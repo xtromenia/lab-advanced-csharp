@@ -49,6 +49,9 @@ namespace Advanced
         private static void PrintOldEmployeeMenu()
         {
             OldDataHandler.PrintOldEmployees();
+            Console.WriteLine("\nPress any key to return to main menu.");
+            Console.ReadKey();
+            PrintMainMenu();
         }
 
         private static void PrintManageDataMenu()
@@ -58,7 +61,8 @@ namespace Advanced
             do
             {
                 Console.Clear();
-                Console.WriteLine("1 Manage Employees.\n2. Manage Departments.\nESC. Back to main menu.");
+                //Console.WriteLine("1 Manage Employees.\n2. Manage Departments.\nESC. Back to main menu.");
+                Console.WriteLine("1 Manage Employees.\nESC. Back to main menu.");
                 ConsoleKey pressedKey = Console.ReadKey(true).Key;
 
                 switch (pressedKey)
@@ -66,9 +70,9 @@ namespace Advanced
                     case ConsoleKey.D1:
                         PrintManageEmployeeMenu();
                         break;
-                    case ConsoleKey.D2:
-                        PrintManageDepartmentMenu();
-                        break;
+                    //case ConsoleKey.D2:
+                    //    PrintManageDepartmentMenu();
+                    //    break;
                     case ConsoleKey.Escape:
                         PrintMainMenu();
                         break;

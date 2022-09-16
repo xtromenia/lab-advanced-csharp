@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace HelperLibrary
@@ -37,14 +38,18 @@ namespace HelperLibrary
             return $"{FirstName} {LastName}";
         }
 
-        public int Compare(OldEmployee? x, OldEmployee? y)
-        {
-            return x.FirstName.CompareTo(y.FirstName);
-        }
-
+        ///Sort by last name first, if the name is the same we sort on firstname aswell.
         public int CompareTo(OldEmployee? y)
         {
-            return this.FirstName.CompareTo(y.FirstName);
+            if (this.LastName.Equals(y.LastName))
+            {
+                return this.FirstName.CompareTo(y.FirstName);
+            }
+            else
+            {
+                return this.LastName.CompareTo(y.LastName);
+            }
         }
+
     }
 }

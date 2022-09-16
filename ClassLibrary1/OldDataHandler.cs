@@ -11,6 +11,9 @@ namespace HelperLibrary
         /// </summary>
         private static void RegisterEmployeesFromTXT()
         {
+            //Clear the dictionary first so we don't get duplicates.
+            OldEmployee.oldDataDictionary.Clear();
+
             OldDepartment salesDepartment = new OldDepartment("Sales");
             OldDepartment programmingDepartment = new OldDepartment("Programming");
             OldDepartment administrationDepartment = new OldDepartment("Administration");
@@ -38,6 +41,7 @@ namespace HelperLibrary
 
                 dictionary.TryGetValue(department, out List<OldEmployee> employeeList);
 
+                //Sort the list with our own sorting function.
                 employeeList.Sort();
 
                 foreach (OldEmployee employee in employeeList)
