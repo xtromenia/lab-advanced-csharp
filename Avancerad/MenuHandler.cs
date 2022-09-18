@@ -4,6 +4,16 @@ using System;
 
 namespace Advanced
 {
+
+    /*
+     * The stati menuhandler class handles all the logic for printing out almost all messages to the commandline.
+     * Also listens to the user's key and line input.
+     * Acts as a hub for sending the user to different menues.
+     * Gets data from the external project HelperLibrary and shows all old data according to the A-requirement.
+     * 
+     * Try catches have been implemented when listening for user input to allow users to try again when inputting wrong information.
+     * Custom Exceptions have been implemented in the Programmer class that are shown to the commandline by catching and printing out errors.
+     */
     internal static class MenuHandler
     {
         public static void PrintMainMenu()

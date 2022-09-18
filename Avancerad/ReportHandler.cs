@@ -9,6 +9,10 @@ namespace Advanced
 {
     internal static class ReportHandler
     {
+        /*
+         * This static class is similar to menuhandler but handles everything that is connected to general or specialized reports.
+         * Used to not make the menuhandler such a big class, should probably split up the menuhandler further.
+         */
         public static void PrintGeneralReport()
         {
             Console.Clear();

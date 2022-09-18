@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Advanced
 {
-    public class Language
+    /*
+     * The language class is created to be able to save multiple languages with their own salary enhancement percentage.
+     * The assignment's description said that only C# would get a 10% increase, but with this system any language could get an enhancementpercentage.
+     */
+    public sealed class Language
     {
         public static List<Language> languages = new List<Language>();
         public string Name { get; set; }
@@ -28,6 +32,7 @@ namespace Advanced
             return languages.Find(m => m.Name.Equals(name));
         }
 
+        //Used for checking if language exists when assigning a language to an employee.
         public static bool LanguageExists(string languageName)
         {
             if (GetLanguage(languageName) is not null)

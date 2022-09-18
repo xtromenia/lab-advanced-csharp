@@ -1,5 +1,11 @@
-﻿namespace ClassLibrary1
+﻿
+namespace ClassLibrary1
 {
+    /*
+     * This class was created for experimenting with external libraries.
+     * Has method for validating if payroll number is correctly formatted.
+     * Also has methods for printing certain error messages to the commandline.
+     */
     public static class Helper
     {
         /// <summary>

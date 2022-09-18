@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace Advanced
 {
+    /*
+     * Class describes a department from the old data that was required for the A-requirement.
+     * Impleents IComparable to create a custom sort-order.
+     * When a department is created we add it to the oldDataDictionary so that we can later add employees to it.
+     */
     public sealed class OldDepartment: IComparable<OldDepartment>
     {
         public string Name { get; set; }

@@ -2,6 +2,15 @@
 using ClassLibrary1;
 using HelperLibrary;
 
+/*
+ * The program.cs class contains all code neccessary for registering data that needs to be in the program on startup.
+ * This includes registering startuplanguages and startup employees.
+ * 
+ * We use a delegate here to do all the method-calls in one line of code by calling the startup delegate.
+ * We reset the console's foregroundcolor to white since it is saved even after closing the application.
+ * And after that we call the MenuHandler's function PrintMainMenu which will be the new hub of the application.
+ */
+
 StartUpDelegate languageDelegate = new StartUpDelegate(RegisterStartupLanguages);
 StartUpDelegate employeeDelegate = new StartUpDelegate(RegisterStartupEmployees);
 

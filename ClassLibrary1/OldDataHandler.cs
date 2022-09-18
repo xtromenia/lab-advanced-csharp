@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace HelperLibrary
 {
+    /*
+     * Similar to program.cs in the main project.
+     * Initiates all the data when PrintOldEmployees is called on by Menuhandler.cs
+     */
     public static class OldDataHandler
     {
-
-        /// <summary>
-        /// Lazy solution, could read the .txt´-file but it's badly formatted.
-        /// </summary>
         private static void RegisterEmployeesFromTXT()
         {
             //Clear the dictionary first so we don't get duplicates.
